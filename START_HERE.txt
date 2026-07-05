@@ -1,0 +1,28 @@
+LYGO-Claw - START HERE (humans)
+=============================
+
+WHAT IS THIS?
+  Software that guards AI agent actions (P0 filter + audit log + optional USB stick approval).
+  Not a chat app by itself - pairs with USB AI or your own tools.
+
+EASIEST WINDOWS PATH
+  1. Install Python 3.11+ from python.org (Add to PATH).
+  2. Double-click: launchers\INSTALL_AND_CHECK.bat
+  3. Double-click: launchers\TRY_GATEWAY.bat
+
+OR (command line)
+  pip install -e .
+  lygo-claw gateway "hello"
+  lygo-claw run help
+
+WITH LYGO USB STICK PLUGGED IN
+  1. On USB: launchers\LYGO_Supervisor_Daemon.bat
+  2. On PC: lygo-claw usb-health   (should show ok: true)
+
+READ NEXT
+  docs\QUICKSTART_FOR_HUMANS.md
+  docs\COMMANDS.md
+
+WEB
+  https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html
+  https://github.com/DeepSeekOracle/lygo-claw
