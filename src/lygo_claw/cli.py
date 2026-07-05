@@ -10,6 +10,8 @@ import sys
 from .framework import LYGOOpenClaw
 from .gateway import SovereignGateway
 from .gatekeeper import P0Gatekeeper
+from .godmode_brain import brain_brief, brain_dream, brain_init, brain_query
+from .sovereign_loop import run_sovereign_loop
 from .usb_supervisor import health, submit_task, task_status
 
 
@@ -27,7 +29,10 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("usb-health", help="Check Champion USB supervisor")
 
     p_bt = sub.add_parser("buildr-task", help="Queue a BUILDR USB daemon task (daemon must be running)")
-    p_bt.add_argument("type", choices=["verify_standalone", "verify_bootstrap", "chat_once", "anchor_audit"])
+    p_bt.add_argument(
+        "type",
+        choices=["verify_standalone", "verify_bootstrap", "chat_once", "anchor_audit", "second_brain_loop"],
+    )
     p_bt.add_argument("--prompt", default="", help="For chat_once")
     p_bt.add_argument("--wait", action="store_true", help="Poll until done")
 
@@ -36,6 +41,15 @@ def main(argv: list[str] | None = None) -> int:
 
     p_audit = sub.add_parser("audit", help="Hermes chain status")
     p_audit.add_argument("action", choices=["verify"])
+
+    sub.add_parser("brain-init", help="Initialize God-Mode vault on USB mycelium")
+    sub.add_parser("brain-dream", help="Run dream cycle (gap filler on USB when present)")
+    sub.add_parser("brain-brief", help="Print morning brief.md")
+    p_bq = sub.add_parser("brain-query", help="Grounded vault search")
+    p_bq.add_argument("question")
+    p_sl = sub.add_parser("sovereign-loop", help="Desktop + USB + lattice balanced loop")
+    p_sl.add_argument("--no-lattice", action="store_true")
+    p_sl.add_argument("--no-dream", action="store_true")
 
     args = ap.parse_args(argv)
 
@@ -77,6 +91,22 @@ def main(argv: list[str] | None = None) -> int:
 
         print(json.dumps(validate_audit_chain(), indent=2))
         return 0
+    if args.cmd == "brain-init":
+        print(json.dumps(brain_init(), indent=2))
+        return 0
+    if args.cmd == "brain-dream":
+        print(json.dumps(brain_dream(), indent=2))
+        return 0
+    if args.cmd == "brain-brief":
+        print(json.dumps(brain_brief(), indent=2))
+        return 0
+    if args.cmd == "brain-query":
+        print(json.dumps(brain_query(args.question), indent=2))
+        return 0
+    if args.cmd == "sovereign-loop":
+        rep = run_sovereign_loop(dream=not args.no_dream, lattice=not args.no_lattice)
+        print(json.dumps(rep, indent=2))
+        return 0 if rep.get("balanced") else 2
     return 1
 
 

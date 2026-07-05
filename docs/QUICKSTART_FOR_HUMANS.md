@@ -17,9 +17,11 @@ Pre-built `.exe` may come later; the supported path today is Python + `INSTALL_A
 
 | Step | Where | Action |
 |------|--------|--------|
-| 1 | USB | `LYGO_One_Boot_AI.bat` — offline chat |
-| 2 | USB | `LYGO_Supervisor_Daemon.bat` — leave open |
-| 3 | PC | `lygo-claw usb-health` — stick guardian online |
+| 1 | USB | `LYGO_BUILDR_Daemon.bat` — guardian + task queue (`:9630`) |
+| 2 | USB | `LYGO_One_Boot_AI.bat` — offline chat (main AI) |
+| 3 | PC | `lygo-claw usb-health` / `buildr-task verify_standalone` |
+
+Stick benchmark + whitepaper: USB `docs/BUILDR_PHASE1_BENCHMARK_WHITEPAPER.md`, run `LYGO_Run_Benchmark.bat`.
 
 ## What each piece does
 

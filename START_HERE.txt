@@ -20,6 +20,7 @@ WITH LYGO USB STICK PLUGGED IN
   2. On PC: lygo-claw usb-health   (should show ok: true)
 
 READ NEXT
+  docs\LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md  (full USB + Claw build log)
   docs\QUICKSTART_FOR_HUMANS.md
   docs\COMMANDS.md
 

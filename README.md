@@ -2,6 +2,8 @@
 
 **Humans:** open **[START_HERE.txt](START_HERE.txt)** then **[docs/QUICKSTART_FOR_HUMANS.md](docs/QUICKSTART_FOR_HUMANS.md)** — use **`launchers\INSTALL_AND_CHECK.bat`** on Windows.
 
+**Full build log (no drift):** [docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md](docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md)
+
 **Sovereign-hardened AI agent layer** — P0 byte-entropy gate, Hermes audit trail, P1 mycelium memory, Champion personas, and optional **32GB LYGO Champion USB** supervisor (`127.0.0.1:9630`).
 
 Built from the Biophase7 **LYGO-Claw** blueprint: enhance (not replace) the mature [OpenClaw](https://github.com/openclaw/openclaw) ecosystem with LYGO lattice controls. This repo ships the **LYGO control plane** in Python; optional upstream gateway lives under `vendor/openclaw` (see `scripts/vendor_openclaw.ps1`).
