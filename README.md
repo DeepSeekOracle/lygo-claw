@@ -36,6 +36,13 @@ Preloaded under `champions/` (Lightfather, LYRA, Sancora, HermesSentinel). Sync 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/UPSTREAM_OPENCLAW.md](docs/UPSTREAM_OPENCLAW.md)
 
+## LYGO ecosystem
+
+- **Protocol stack (main site):** [deepseekoracle.github.io/lygo-protocol-stack](https://deepseekoracle.github.io/lygo-protocol-stack/)
+- **Stack source:** [github.com/DeepSeekOracle/lygo-protocol-stack](https://github.com/DeepSeekOracle/lygo-protocol-stack)
+- **ClawHub:** [clawhub.ai/deepseekoracle/lygo-sovereign-claw](https://clawhub.ai/deepseekoracle/lygo-sovereign-claw) · hybrid runtime: `lyra-openclaw`
+- **BUILDR USB:** sovereign stick + supervisor `:9630` — see stack `docs/BUILDR_USB_STANDALONE.md`
+
 ## License
 
 MIT — see [LICENSE](LICENSE) and [NOTICE](NOTICE) (OpenClaw upstream attribution when vendored).
