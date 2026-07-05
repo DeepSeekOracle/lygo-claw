@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+data/
+*.egg-info/
+dist/
+build/
+vendor/openclaw/
+.pytest_cache/

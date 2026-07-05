@@ -1,0 +1,10 @@
+{
+  "install_order": [
+    "lygo-protocol-stack-operator",
+    "lygo-sovereign-super-skill",
+    "lygo-kernel-egg-planter",
+    "lygo-champion-council",
+    "lyra-brain"
+  ],
+  "clawhub_publisher": "deepseekoracle"
+}

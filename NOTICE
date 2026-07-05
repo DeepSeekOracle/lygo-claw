@@ -1,0 +1,7 @@
+LYGO-Claw incorporates ideas and optional vendored code from OpenClaw
+(https://github.com/openclaw/openclaw), Copyright (c) Peter Steinberger and
+contributors, licensed under the MIT License.
+
+When you run scripts/vendor_openclaw.ps1, upstream files are placed under
+vendor/openclaw/ and remain subject to the upstream MIT license and copyright
+notices.

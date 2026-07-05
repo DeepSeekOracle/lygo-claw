@@ -1,0 +1,11 @@
+{
+  "signature": "D9Phi963-LYGO-CLAW-SOVEREIGN-DEFAULTS-v1",
+  "bind_host": "127.0.0.1",
+  "gateway_port": 18789,
+  "p0_enforced": true,
+  "usb_supervisor": true,
+  "usb_supervisor_url": "http://127.0.0.1:9630",
+  "default_champion": "Lightfather",
+  "disable_public_clawhub_autoload": true,
+  "hermes_log": "data/hermes_audit/audit_trail.log"
+}
