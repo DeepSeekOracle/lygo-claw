@@ -18,9 +18,10 @@ Stack: portable **Ollama** (`qwen2.5:3b`) + **LYGO CLAW Gateway** + browser UI.
 | Artifact | Contents | Size |
 |----------|----------|------|
 | **Release zip** | Full working USB (Ollama + models + gateway) | ~8 GB |
-| **`usb/` in repo** | Launchers, configs, dashboards, verify scripts | Small (source tree) |
+| **`usb/` in repo** | Launchers, configs, dashboards (no models/runtime/gateway dist) | Small source tree |
+| **`releases/staging-full`** | Maintainer-local verified full kit (~8.5 GB) | Build with `package_usb_claw_public.ps1` |
 
-Clone the repo for docs and host pairing; download the **release zip** for the complete offline stick.
+Clone the repo for docs and host pairing. End users need the **release zip** (built via `create_usb_release_zip.ps1`) for the complete offline stick.
 
 ## Install (end user)
 

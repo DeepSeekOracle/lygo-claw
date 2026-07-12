@@ -30,7 +30,7 @@ SECRET_PATTERNS = (
     re.compile(r"xai-[a-zA-Z0-9]{20,}"),
     re.compile(r"nvapi-[a-zA-Z0-9]{20,}"),
 )
-REQUIRED = (
+REQUIRED_FULL = (
     "LYGO_CLAW_Launch.bat",
     "LYGO_Gateway.ps1",
     "LYGO_Ollama_USB_Boot.ps1",
@@ -38,6 +38,15 @@ REQUIRED = (
     "dashboard/lygo-claw.html",
     "tools/node/node.exe",
     "tools/lygo-gateway/dist/entry.js",
+    "README.txt",
+    "START_HERE_USB.txt",
+)
+REQUIRED_GIT = (
+    "LYGO_CLAW_Launch.bat",
+    "LYGO_Gateway.ps1",
+    "LYGO_Ollama_USB_Boot.ps1",
+    "lygo-claw/lygo.json",
+    "dashboard/lygo-claw.html",
     "README.txt",
     "START_HERE_USB.txt",
 )
@@ -107,13 +116,15 @@ def main() -> int:
     ap.add_argument("usb_root", nargs="?", default=str(Path(__file__).resolve().parents[1] / "usb"))
     ap.add_argument("--require-weights", action="store_true", help="Fail if model blobs missing")
     ap.add_argument("--check-ports", action="store_true", help="Require Ollama :11434 and Gateway :18789")
+    ap.add_argument("--git-only", action="store_true", help="Verify repo usb/ tree (no dist/node/models required)")
     args = ap.parse_args()
     root = Path(args.usb_root).resolve()
     if not root.is_dir():
         print(json.dumps({"ok": False, "error": f"missing root {root}"}, indent=2))
         return 1
 
-    missing = [p for p in REQUIRED if not (root / p).exists()]
+    required = REQUIRED_GIT if args.git_only else REQUIRED_FULL
+    missing = [p for p in required if not (root / p).exists()]
     hits = scan_secrets(root)
     models = check_models(root)
     ports = {

@@ -5,7 +5,7 @@ venv/
 data/
 *.egg-info/
 dist/
-!usb/tools/lygo-gateway/dist/
+usb/tools/lygo-gateway/dist/
 build/
 vendor/openclaw/
 .pytest_cache/
