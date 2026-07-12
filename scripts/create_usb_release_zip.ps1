@@ -10,8 +10,19 @@ python (Join-Path (Split-Path $PSScriptRoot -Parent) "scripts\verify_usb_claw_pu
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path $ZipOut) { Remove-Item -Force $ZipOut }
-Write-Host "Creating zip (large, may take several minutes)..."
-Compress-Archive -Path (Join-Path $Staging "*") -DestinationPath $ZipOut -CompressionLevel Optimal
+Write-Host "Creating zip (~8 GB, may take 10-30 minutes)..."
+$tar = Get-Command tar -ErrorAction SilentlyContinue
+if ($tar) {
+    Push-Location $Staging
+    try {
+        & tar -a -c -f $ZipOut .
+        if ($LASTEXITCODE -ne 0) { throw "tar failed with exit $LASTEXITCODE" }
+    } finally {
+        Pop-Location
+    }
+} else {
+    Compress-Archive -Path (Join-Path $Staging "*") -DestinationPath $ZipOut -CompressionLevel Fastest
+}
 
 New-Item -ItemType Directory -Force -Path $DownloadsDir | Out-Null
 Copy-Item -Force $ZipOut (Join-Path $DownloadsDir (Split-Path $ZipOut -Leaf))
