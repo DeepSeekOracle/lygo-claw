@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "signature": "D9Phi963-LYGO-CLAW-USB-PUBLIC-v1",
   "verified_utc": "2026-07-12",
+  "published_utc": "2026-07-12",
+  "download_parts": [
+    "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part01",
+    "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part02",
+    "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part03"
+  ],
   "staging_path": "releases/staging-full",
   "verify_command": "python scripts/verify_usb_claw_public.py releases/staging-full --require-weights",
   "verify_ok": true,
