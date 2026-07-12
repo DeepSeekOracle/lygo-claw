@@ -1,0 +1,15 @@
+{
+  "product": "LYGO-CLAW-USB-PUBLIC",
+  "version": "1.0.0",
+  "signature": "D9Phi963-LYGO-CLAW-USB-PUBLIC-v1",
+  "verified_utc": "2026-07-12",
+  "staging_path": "releases/staging-full",
+  "verify_command": "python scripts/verify_usb_claw_public.py releases/staging-full --require-weights",
+  "verify_ok": true,
+  "size_gb_approx": 8.48,
+  "models": ["qwen2.5:3b", "llama3.2:1b"],
+  "ports": { "ollama": 11434, "gateway": 18789 },
+  "token": "lygo-usb-standalone-token",
+  "zip_script": "scripts/create_usb_release_zip.ps1",
+  "note": "Full zip exceeds GitHub 2GB asset limit; host on Excavationpro CDN, Hugging Face, or split archives."
+}

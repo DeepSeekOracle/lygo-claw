@@ -1,0 +1,20 @@
+START HERE — LYGO CLAW USB (public)
+===================================
+
+You need: Windows 10/11, a browser, ~8 GB free space.
+
+STEP 1 — Get the full kit
+  Maintainer build (verified):
+    powershell -File scripts\create_usb_release_zip.ps1
+  Or download when published: LYGO-CLAW-USB-PUBLIC-v1.0.0.zip
+
+STEP 2 — Boot
+  Double-click: LYGO_CLAW_Launch.bat
+
+STEP 3 — Chat
+  Dashboard opens (lygo-claw.html). Token: lygo-usb-standalone-token
+
+STEP 4 — Pair PC agent (optional)
+  lygo-claw repo: launchers\INSTALL_AND_CHECK.bat then lygo-claw usb-health
+
+Docs: docs/USB_PUBLIC_RELEASE.md

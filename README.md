@@ -19,15 +19,31 @@ lygo-claw usb-health
 lygo-claw audit verify
 ```
 
-## USB Champion integration
+## LYGO CLAW USB (public standalone terminal)
 
-Plug `E:\LYGO_BUILDER_KEY` (or retail PUBLIC_SKU), start supervisor:
+**Full guide:** [docs/USB_PUBLIC_RELEASE.md](docs/USB_PUBLIC_RELEASE.md)
 
-```text
-launchers\LYGO_Supervisor_Daemon.bat
+| Artifact | What |
+|----------|------|
+| `usb/` in this repo | Launchers, configs, dashboards, verify scripts |
+| **Full offline zip** (~8 GB) | [Excavationpro downloads](https://deepseekoracle.github.io/Excavationpro/downloads/) → `LYGO-CLAW-USB-PUBLIC-v1.0.0.zip` |
+
+**Quick boot:** extract zip → `LYGO_CLAW_Launch.bat` → dashboard connects at `ws://127.0.0.1:18789`.
+
+**Verify before publish:**
+```bash
+python scripts/verify_usb_claw_public.py releases/staging-full --require-weights
 ```
 
-LYGO-Claw calls `/Supervise` before approving tool-like traffic when `usb_supervisor` is true in `config/sovereign_defaults.json`.
+## USB Champion integration (host pairing)
+
+Plug the USB stick, then on PC:
+
+```bash
+lygo-claw usb-health
+```
+
+Optional BUILDR supervisor on `:9630` — see [docs/USB_SUPERVISOR.md](docs/USB_SUPERVISOR.md).
 
 ## Champions
 

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>LYGO CLAW Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --bg:#0b0f14; --fg:#e8eef4; --accent:#5eb8ff; --ok:#3dd68c; --bad:#ff6b6b; --card:#141a22; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--fg); margin: 0; padding: 1rem; }
+    h1 { font-size: 1.3rem; margin: 0 0 .5rem; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .card { background: var(--card); border: 1px solid #222b36; border-radius: 8px; padding: 1rem; min-width: 260px; flex: 1; }
+    .status { font-weight: 600; }
+    .ok { color: var(--ok); } .bad { color: var(--bad); }
+    input, button, textarea { font: inherit; padding: .4rem .6rem; border-radius: 6px; border: 1px solid #334; background:#0a0e14; color:#e8eef4; }
+    button { background: var(--accent); color:#000; border: none; cursor: pointer; }
+    button:hover { filter: brightness(1.1); }
+    pre { background:#0a0e14; padding:.6rem; border-radius:6px; max-height:220px; overflow:auto; font-size:12px; }
+    .log { font-family: ui-monospace, monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>🛡️ LYGO CLAW — Sovereign Gateway Dashboard</h1>
+  <p style="margin:0 0 1rem; opacity:.8">100% LYGO • Standalone USB • Hardwired • Sovereign features • Modules separate</p>
+
+  <div class="row">
+    <div class="card">
+      <strong>Gateway</strong><br>
+      <span id="gw">Disconnected</span><br>
+      <small>ws://127.0.0.1:18789</small>
+      <div style="margin-top:.5rem">
+        <button onclick="connect()">Connect / Reconnect</button>
+        <button onclick="sendPing()">Ping</button>
+      </div>
+      <div style="margin-top:.5rem">
+        <input id="token" value="lygo-usb-standalone-token" style="width:220px" />
+      </div>
+    </div>
+
+    <div class="card">
+      <strong>USB Ollama</strong><br>
+      <span id="ollama">Checking...</span><br>
+      <small>http://127.0.0.1:11434</small>
+      <div style="margin-top:.5rem">
+        <button onclick="checkOllama()">Check Ollama</button>
+      </div>
+      <pre id="models"></pre>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:1rem">
+    <div class="card" style="flex:2">
+      <strong>Send to Gateway (LYGO)</strong>
+      <textarea id="msg" rows="2" style="width:100%; margin:.3rem 0" placeholder="Message for LYGO CLAW (P0 + audit applies via modules)"></textarea>
+      <button onclick="sendMessage()">Send</button>
+      <pre id="reply" class="log"></pre>
+    </div>
+    <div class="card">
+      <strong>Status / Log</strong>
+      <pre id="log" class="log" style="min-height:120px"></pre>
+    </div>
+  </div>
+
+  <p style="opacity:.6; font-size:12px">LYGO Kernel • Δ9Φ963 • file:// origin handled via allowed null/file/* • No global auth needed on USB • See LYGO_CLAW_USB_RESTORE_ANCHOR.md for full alignment</p>
+
+<script>
+const GW = 'ws://127.0.0.1:18789';
+let ws = null;
+let token = 'lygo-usb-standalone-token';
+
+function log(msg) {
+  const el = document.getElementById('log');
+  el.textContent = (new Date().toLocaleTimeString() + ' ' + msg + '\n' + el.textContent).slice(0, 2000);
+}
+
+function setGw(s, ok) {
+  const el = document.getElementById('gw');
+  el.textContent = s;
+  el.className = ok ? 'status ok' : 'status bad';
+}
+
+function setOllama(s, ok) {
+  const el = document.getElementById('ollama');
+  el.textContent = s;
+  el.className = ok ? 'status ok' : 'status bad';
+}
+
+function connect() {
+  if (ws) { try { ws.close(); } catch(e){} }
+  token = document.getElementById('token').value || token;
+  setGw('Connecting...', false);
+  ws = new WebSocket(GW);
+
+    ws.onopen = () => {
+    log('WS open');
+    setGw('Connected (sending auth)', true);
+    // Send auth immediately with token
+    try {
+      ws.send(JSON.stringify({ type: 'auth', token: token }));
+      log('SENT auth with token');
+    } catch(e) {}
+  };
+
+  ws.onmessage = (ev) => {
+    log('RECV: ' + ev.data);
+    try {
+      const data = JSON.parse(ev.data);
+      if (data && (data.type === 'challenge' || (data.event && data.event.includes('challenge')) || data.nonce)) {
+        const nonce = data.nonce || (data.payload && data.payload.nonce) || data.payload;
+        const resp = {
+          type: 'response',
+          event: 'connect.challenge',
+          payload: { nonce: nonce, token: token }
+        };
+        ws.send(JSON.stringify(resp));
+        log('SENT challenge response');
+        setGw('Authenticated', true);
+      } else if (data && (data.type === 'auth' || data.ok || data.authenticated || data.ready)) {
+        setGw('Ready', true);
+      } else if (data && data.error) {
+        log('Gateway error: ' + data.error);
+        setGw('Error from gateway', false);
+      }
+    } catch (e) { log('Parse error: ' + e); }
+  };
+  };
+
+  ws.onclose = (e) => {
+    setGw('Disconnected (code ' + (e.code||'') + ')', false);
+    log('Closed: ' + e.code + ' ' + e.reason);
+    // auto retry once
+    setTimeout(() => { if (!ws || ws.readyState > 1) connect(); }, 2500);
+  };
+
+  ws.onerror = () => setGw('Error', false);
+}
+
+function sendPing() {
+  if (!ws || ws.readyState !== 1) { connect(); return; }
+  ws.send(JSON.stringify({ type: 'ping', from: 'lygo-dashboard' }));
+  log('ping sent');
+}
+
+function sendMessage() {
+  const txt = document.getElementById('msg').value.trim();
+  if (!txt) return;
+  if (!ws || ws.readyState !== 1) { log('not connected'); connect(); return; }
+  const payload = { type: 'message', text: txt, agent: 'lygo-dashboard' };
+  ws.send(JSON.stringify(payload));
+  log('SENT: ' + txt);
+  document.getElementById('reply').textContent = 'sent...';
+}
+
+async function checkOllama() {
+  setOllama('Checking...', false);
+  try {
+    const r = await fetch('http://127.0.0.1:11434/api/tags', { method: 'GET' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const names = (j.models || j).map ? (j.models || j).map(m => m.name || m).join(', ') : JSON.stringify(j).slice(0,120);
+    document.getElementById('models').textContent = names || '(no models listed)';
+    setOllama('Reachable ✓', true);
+  } catch (e) {
+    setOllama('Not reachable (start Ollama boot)', false);
+    document.getElementById('models').textContent = e.message;
+  }
+}
+
+window.onload = () => {
+  document.getElementById('token').value = token;
+  connect();
+  setTimeout(checkOllama, 800);
+  // auto retry gateway if drops
+  setInterval(() => {
+    const s = document.getElementById('gw').textContent;
+    if (s.includes('Disconnect') || s.includes('Error')) connect();
+  }, 8000);
+};
+</script>
+</body>
+</html>

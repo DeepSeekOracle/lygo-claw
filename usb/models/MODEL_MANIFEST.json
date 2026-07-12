@@ -1,0 +1,31 @@
+{
+  "signature": "D9Phi963-USB-MODEL-MANIFEST-v2",
+  "standalone_profile": "SOVEREIGN_FAST",
+  "usb_models_dir": "product/models/ollama",
+  "primary": {
+    "name": "qwen2.5:3b",
+    "ollama_pull": "ollama pull qwen2.5:3b",
+    "role": "standalone_brain",
+    "approx_gb": 2.1,
+    "notes": "Default for USB standalone — fastest smart tier for 32GB kit"
+  },
+  "speed_optional": {
+    "name": "qwen2.5:1.5b",
+    "ollama_pull": "ollama pull qwen2.5:1.5b",
+    "role": "ultra_fast_cpu",
+    "approx_gb": 1.0
+  },
+  "army_host_optional": {
+    "name": "llama3.2:1b",
+    "ollama_pull": "ollama pull llama3.2:1b",
+    "role": "army_light",
+    "notes": "Not required on USB; host army only"
+  },
+  "install_script": "scripts/hydrate_usb_models.ps1",
+  "runtime_bundle_script": "scripts/bundle_ollama_to_usb.ps1",
+  "runtime_fallback_script": "scripts/install_usb_runtime.ps1",
+  "launcher_one_boot": "launchers/LYGO_One_Boot_AI.bat",
+  "launcher": "launchers/LYGO_Standalone_AI.bat",
+  "models_dir_env": "OLLAMA_MODELS",
+  "offline_note": "After hydrate, inference works offline with ollama serve + model on USB"
+}

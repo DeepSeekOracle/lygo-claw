@@ -15,8 +15,14 @@ OR (command line)
   lygo-claw gateway "hello"
   lygo-claw run help
 
-WITH LYGO USB STICK PLUGGED IN
-  1. On USB: launchers\LYGO_Supervisor_Daemon.bat
+LYGO CLAW USB — STANDALONE (no Python install)
+  1. Download LYGO-CLAW-USB-PUBLIC-v1.0.0.zip (Excavationpro downloads page)
+  2. Extract to USB or any folder
+  3. Double-click LYGO_CLAW_Launch.bat
+  See usb\START_HERE_USB.txt and docs\USB_PUBLIC_RELEASE.md
+
+WITH LYGO USB STICK + PC PAIRING
+  1. Boot USB with LYGO_CLAW_Launch.bat (or BUILDR daemon if retail SKU)
   2. On PC: lygo-claw usb-health   (should show ok: true)
 
 READ NEXT

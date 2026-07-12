@@ -1,0 +1,2 @@
+Portable Ollama ships in the full release zip (~5 GB), not in git.
+Build: scripts/create_usb_release_zip.ps1 from verified staging-full.
